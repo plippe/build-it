@@ -1,4 +1,5 @@
 import scrapy
+from scrapy.crawler import CrawlerProcess
 
 class BlogSpider(scrapy.Spider):
     name = 'blogspider'
@@ -10,3 +11,9 @@ class BlogSpider(scrapy.Spider):
 
         for next_page in response.css('div.prev-post > a'):
             yield response.follow(next_page, self.parse)
+
+if __name__ == "__main__":
+    process = CrawlerProcess()
+
+    process.crawl(BlogSpider)
+    process.start()
