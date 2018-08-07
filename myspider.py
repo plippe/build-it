@@ -1,9 +1,9 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
 
-class BlogSpider(scrapy.Spider):
-    name = 'blogspider'
-    start_urls = ['https://blog.scrapinghub.com']
+class WiproDigitalSpider(scrapy.Spider):
+    name = 'wiprodigital'
+    start_urls = ['http://wiprodigital.com']
 
     def parse(self, response):
         for title in response.css('.post-header>h2'):
@@ -15,5 +15,5 @@ class BlogSpider(scrapy.Spider):
 if __name__ == "__main__":
     process = CrawlerProcess()
 
-    process.crawl(BlogSpider)
+    process.crawl(WiproDigitalSpider)
     process.start()
