@@ -4,13 +4,15 @@ from scrapy.crawler import CrawlerProcess
 class WiproDigitalSpider(scrapy.Spider):
     name = 'wiprodigital'
     start_urls = ['http://wiprodigital.com']
+    allowed_domains = ['wiprodigital.com']
 
     def parse(self, response):
-        for title in response.css('.post-header>h2'):
-            yield {'title': title.css('a ::text').extract_first()}
+        for image in response.css('img'):
+            yield { 'url': response.request.url, 'image': image.css('::attr(src)').extract_first() }
 
-        for next_page in response.css('div.prev-post > a'):
-            yield response.follow(next_page, self.parse)
+        for anchor in response.css('a'):
+            yield { 'url': response.request.url, 'anchor': anchor.css('::attr(href)').extract_first() }
+            yield response.follow(anchor, self.parse)
 
 if __name__ == "__main__":
     process = CrawlerProcess({
