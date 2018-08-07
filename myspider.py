@@ -13,7 +13,10 @@ class WiproDigitalSpider(scrapy.Spider):
             yield response.follow(next_page, self.parse)
 
 if __name__ == "__main__":
-    process = CrawlerProcess()
+    process = CrawlerProcess({
+        'FEED_FORMAT': 'jsonlines',
+        'FEED_URI': 'log/wiprodigital.json'
+    })
 
     process.crawl(WiproDigitalSpider)
     process.start()
